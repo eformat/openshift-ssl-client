@@ -76,7 +76,7 @@ objects:
             - name: password
               value: password
           command: ['/bin/bash']
-          args: ['-c', "keytool -importkeystore -srckeystore $JAVA_HOME/jre/lib/security/cacerts -srcstoretype JKS -destkeystore $truststore_jks -storepass password -srcstorepass password && csplit -z -f crt- $ca_bundle '/-----BEGIN CERTIFICATE-----/' '{*}' && for file in crt-*; do keytool -import -noprompt -keystore $truststore_jks -file $file -storepass password -alias service-$file; done"]
+          args: ['-c', "keytool -importkeystore -srckeystore $JAVA_HOME/jre/lib/security/cacerts -srcstoretype JKS -destkeystore $truststore_jks -storepass password -srcstorepass changeit && csplit -z -f crt- $ca_bundle '/-----BEGIN CERTIFICATE-----/' '{*}' && for file in crt-*; do keytool -import -noprompt -keystore $truststore_jks -file $file -storepass password -alias service-$file; done"]
           volumeMounts:
             - name: keystore-volume
               mountPath: /var/run/secrets/java.io/keystores
