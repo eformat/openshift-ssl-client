@@ -10,18 +10,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SslClientApplication {
 
-
     public static void main(String[] args) throws IOException, InterruptedException {
 
-	HttpClient client = new HttpClient();
-	GetMethod method = new GetMethod();
-	String uri = "https://ssl-server." + System.getenv("POD_NAMESPACE") + ".svc:8443/secured";
-	method.setURI(new URI(uri, false));
+        HttpClient client = new HttpClient();
+        GetMethod method = new GetMethod();
+        String uri = "https://ssl-server." + System.getenv("POD_NAMESPACE") + ".svc:8443/secured";
+        method.setURI(new URI(uri, false));
 
-	while(true) {
-	    client.executeMethod(method);
-	    Thread.sleep(5000);
-	}
+        while (true) {
+            client.executeMethod(method);
+            Thread.sleep(5000);
+        }
 
     }
 

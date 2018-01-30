@@ -19,7 +19,7 @@ objects:
     runPolicy: Serial
     source:
       git:
-        uri: "https://github.com/domenicbove/openshift-ssl-client"
+        uri: "https://github.com/eformat/openshift-ssl-client"
         ref: "master"
     strategy:
       sourceStrategy:
@@ -54,7 +54,7 @@ objects:
         containers:
         - env:
           - name: JAVA_OPTIONS
-            value: -Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit
+            value: -Djavax.net.ssl.trustStore=/var/run/secrets/java.io/keystores/truststore.jks -Djavax.net.ssl.trustStorePassword=password
           - name: POD_NAMESPACE
             valueFrom:
               fieldRef:
@@ -74,9 +74,9 @@ objects:
             - name: truststore_jks
               value: /var/run/secrets/java.io/keystores/truststore.jks
             - name: password
-              value: changeit
+              value: password
           command: ['/bin/bash']
-          args: ['-c', "keytool -importkeystore -srckeystore $JAVA_HOME/jre/lib/security/cacerts -srcstoretype JKS -destkeystore $truststore_jks -storepass changeit -srcstorepass changeit && csplit -z -f crt- $ca_bundle '/-----BEGIN CERTIFICATE-----/' '{*}' && for file in crt-*; do keytool -import -noprompt -keystore $truststore_jks -file $file -storepass changeit -alias service-$file; done"]
+          args: ['-c', "keytool -importkeystore -srckeystore $JAVA_HOME/jre/lib/security/cacerts -srcstoretype JKS -destkeystore $truststore_jks -storepass password -srcstorepass password && csplit -z -f crt- $ca_bundle '/-----BEGIN CERTIFICATE-----/' '{*}' && for file in crt-*; do keytool -import -noprompt -keystore $truststore_jks -file $file -storepass password -alias service-$file; done"]
           volumeMounts:
             - name: keystore-volume
               mountPath: /var/run/secrets/java.io/keystores
